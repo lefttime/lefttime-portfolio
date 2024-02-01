@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+**Build**
+
+docker build --platform linux/amd64 -t lefttime-portfolio:v1 .
+
+**Upload**
+
+docker login -u username
+
+docker tag lefttime-portfolio:v1 lefttime/lefttime-portfolio:v1
+docker push lefttime/lefttime-portfolio:v1
+
+**Deployment**
+
+docker run -d --name lefttime-portfolio -p 3000:3000 lefttime/lefttime-portfolio:v1
