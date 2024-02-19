@@ -46,6 +46,10 @@ docker login -u username
 docker tag lefttime-portfolio:v1 lefttime/lefttime-portfolio:v1
 docker push lefttime/lefttime-portfolio:v1
 
+**Build & Upload at once**
+
+docker buildx build --platform linux/arm64,linux/amd64 -t lefttime/lefttime-portfolio:v1 -o type=registry .
+
 **Deployment**
 
 docker run -d --name lefttime-portfolio -p 3000:3000 lefttime/lefttime-portfolio:v1
