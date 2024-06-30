@@ -13,18 +13,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: prepare file
+    - uses: actions/checkout@v4
+    - name: Build the Docker Image
       run: |
-        echo 'Starting to create file......'
-        touch 1.txt
-        echo 'have a good day' + `date +%s` >> 1.txt
-        echo 'Create file finished!'
+        echo 'Starting to build docker image......'
+        docker build . --file Dockerfile --tag lefttime-portfolio
+        echo 'Build docker image finished!'
         
-    - name: rsync developments
+    - name: Package the Docker Image
+      run: |
+        echo 'Starting to package docker image......'
+        docker save -o lefttime-portfolio.tar lefttime-portfolio:latest
+        echo 'Package docker image finished!'
+        
+    - name: Rsync the Docker Image
       uses: burnett01/rsync-deployments@7.0.1
       with:
         switches: -avzr --delete
-        path: 1.txt
+        path: lefttime-portfolio.tar
         remote_path: /home/lefttime/Downloads/
         remote_host: ${{ secrets.REMOTE_ALIHOST }}
         remote_user: lefttime
