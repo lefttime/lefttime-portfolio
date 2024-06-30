@@ -22,6 +22,6 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.ALIYUN_LEFTTIME }}
         REMOTE_HOST: ${{ secrets.RETEMO_ALIHOST }}
         REMOTE_USER: 'lefttime'
-      run:
+      run: |
         docker save -o lefttime-portfolio.tar lefttime-portfolio:latest
         rsync -av lefttime-portfolio.tar lefttime@REMOTE_HOST:~/Downloads/.
