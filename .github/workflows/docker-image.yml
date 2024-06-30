@@ -18,9 +18,8 @@ jobs:
       with:
         host: ${{ secrets.REMOTE_ALIHOST }}
         key: ${{ secrets.ALIYUN_LEFTTIME }}
-        port: 22
         username: lefttime
         script: |
           cd Downloads
-          echo "hello, man" >> 1.txt
-          echo "have a good day" + `date` >> 1.txt
+          echo "hello, man" >> 2.txt
+          echo "have a good day" + `date` >> 2.txt
