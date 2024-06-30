@@ -8,7 +8,7 @@ on:
 
 env:
   private_key: ${{ secrets.ALIYUN_LEFTTIME }}
-  remote_host: ${{ secrets.REMOTE_ALIHOST}}
+  remote_host: 
   remote_user: 'lefttime'
 
 jobs:
@@ -18,7 +18,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: RSync Test
+    - name: rsync developments
+      uses: burnett01/rsync-deployments@7.0.1
+      with:
+        switches: -avzr --delete
+        path: src/
+        remote_path: /home/lefttime/Downloads/
+        remote_host: ${{ secrets.REMOTE_ALIHOST }}
+        remote_user: lefttime
+        remote_key: ${{ secrets.ALIYUN_LEFTTIME }}
       run: |
         echo 'Starting to rsync file......'
         echo 'have a good day' + `date +%s`
