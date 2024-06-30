@@ -37,12 +37,12 @@ jobs:
         remote_key: ${{ secrets.ALIYUN_LEFTTIME }}
 
     - name: Deploy the Docker Image
-          uses: appleboy/ssh-action@v1.0.3
-          with:
-            host: ${{ secrets.REMOTE_ALIHOST }}
-            key: ${{ secrets.ALIYUN_LEFTTIME }}
-            port: 22
-            username: lefttime
-            script: |
-              cd /home/lefttime/Developer/portfolio
-              ./update.sh
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.REMOTE_ALIHOST }}
+        key: ${{ secrets.ALIYUN_LEFTTIME }}
+        port: 22
+        username: lefttime
+        script: |
+          cd /home/lefttime/Developer/portfolio
+          ./update.sh
