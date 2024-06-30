@@ -15,7 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag lefttime-portfolio
+      run: |
+        echo 'Starting to build docker image......'
+        docker build . --file Dockerfile --tag lefttime-portfolio
+        echo 'Build docker image finished!'
 
     - name: Package & Push the Docker image
       env:
@@ -23,5 +26,10 @@ jobs:
         REMOTE_HOST: ${{ secrets.RETEMO_ALIHOST }}
         REMOTE_USER: 'lefttime'
       run: |
+        echo 'Starting to package docker image......'
         docker save -o lefttime-portfolio.tar lefttime-portfolio:latest
+        echo 'Package docker image finished!'
+
+        echo 'Starting to rsync file......'
         rsync -av lefttime-portfolio.tar $REMOTE_USER@$REMOTE_HOST:~/Downloads/.
+        echo 'Rsync file finished!'
