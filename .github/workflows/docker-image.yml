@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  private_key: ${{ secrets.ALIYUN_LEFTTIME }}
+  remote_host: ${{ secrets.REMOTE_ALIHOST}}
+  remote_user: 'lefttime'
+
 jobs:
 
   build:
@@ -13,23 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
+    - name: RSync Test
       run: |
-        echo 'Starting to build docker image......'
-        docker build . --file Dockerfile --tag lefttime-portfolio
-        echo 'Build docker image finished!'
-
-    - name: Package & Push the Docker image
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.ALIYUN_LEFTTIME }}
-        REMOTE_HOST: ${{ secrets.RETEMO_ALIHOST }}
-        REMOTE_USER: 'lefttime'
-      run: |
-        echo 'Starting to package docker image......'
-        docker save -o lefttime-portfolio.tar lefttime-portfolio:latest
-        echo 'Package docker image finished!'
-
         echo 'Starting to rsync file......'
+        echo 'have a good day' + `date +%s`
         rsync -av lefttime-portfolio.tar $REMOTE_USER@$REMOTE_HOST:~/Downloads/.
         echo 'Rsync file finished!'
