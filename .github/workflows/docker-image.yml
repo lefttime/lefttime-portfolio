@@ -13,13 +13,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v4
     - name: Build the Docker Image
-      uses: appleboy/ssh-action@v1.0.3
+      run: |
+        echo 'Starting to build docker image......'
+        docker build . --file Dockerfile --tag lefttime-portfolio
+        echo 'Build docker image finished!'
+        
+    - name: Package the Docker Image
+      run: |
+        echo 'Starting to package docker image......'
+        docker save -o lefttime-portfolio.tar lefttime-portfolio:latest
+        echo 'Package docker image finished!'
+        
+    - name: Rsync the Docker Image
+      uses: burnett01/rsync-deployments@7.0.1
       with:
-        host: ${{ secrets.REMOTE_ALIHOST }}
-        key: ${{ secrets.ALIYUN_LEFTTIME }}
-        username: lefttime
-        script: |
-          cd Downloads
-          echo "hello, man" >> 2.txt
-          echo "have a good day" + `date` >> 2.txt
+        switches: -avzr --delete
+        path: lefttime-portfolio.tar
+        remote_path: /home/lefttime/Developer/portfolio
+        remote_host: ${{ secrets.REMOTE_ALIHOST }}
+        remote_user: lefttime
+        remote_key: ${{ secrets.ALIYUN_LEFTTIME }}
+
+    - name: Deploy the Docker Image
+          uses: appleboy/ssh-action@v1.0.3
+          with:
+            host: ${{ secrets.REMOTE_ALIHOST }}
+            key: ${{ secrets.ALIYUN_LEFTTIME }}
+            port: 22
+            username: lefttime
+            script: |
+              cd /home/lefttime/Developer/portfolio
+              ./update.sh
