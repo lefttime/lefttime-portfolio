@@ -6,11 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  private_key: ${{ secrets.ALIYUN_LEFTTIME }}
-  remote_host: 
-  remote_user: 'lefttime'
-
 jobs:
 
   build:
@@ -18,17 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: prepare file
+      run: |
+        echo 'Starting to create file......'
+        touch 1.txt
+        echo 'have a good day' + `date +%s` >> 1.txt
+        echo 'Create file finished!'
+        
     - name: rsync developments
       uses: burnett01/rsync-deployments@7.0.1
       with:
         switches: -avzr --delete
-        path: src/
+        path: 1.txt
         remote_path: /home/lefttime/Downloads/
         remote_host: ${{ secrets.REMOTE_ALIHOST }}
         remote_user: lefttime
         remote_key: ${{ secrets.ALIYUN_LEFTTIME }}
-      run: |
-        echo 'Starting to rsync file......'
-        echo 'have a good day' + `date +%s`
-        rsync -av lefttime-portfolio.tar $REMOTE_USER@$REMOTE_HOST:~/Downloads/.
-        echo 'Rsync file finished!'
