@@ -14,15 +14,20 @@ import {
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 
-import { cn, getRandomInt } from "@/lib/utils"
+import { cn, generateRandomNumbers, getRandomInt } from "@/lib/utils"
 
 const randomNumbers = [
-    { value: '5', label: "5", min: 10000, max: 100000 },
-    { value: '6', label: "6", min: 100000, max: 1000000 },
-    { value: '7', label: "7", min: 1000000, max: 10000000 },
-    { value: '8', label: "8", min: 10000000, max: 100000000 },
-    { value: '9', label: "9", min: 100000000, max: 1000000000 },
-    { value: '10', label: "10", min: 1000000000, max: 10000000000 },
+    { value: 5, label: "5" },
+    { value: 6, label: "6" },
+    { value: 7, label: "7" },
+    { value: 8, label: "8" },
+    { value: 9, label: "9" },
+    { value: 10, label: "10" },
+    { value: 11, label: "11" },
+    { value: 12, label: "12" },
+    { value: 13, label: "13" },
+    { value: 14, label: "14" },
+    { value: 15, label: "15" },
 ]
 
 type RandomNumbersProps = {
@@ -33,11 +38,10 @@ const RandomNumbers = ({
     className
 }: RandomNumbersProps) => {
     const [count, setCount] = useState<string>('8')
-    const [number, setNumber] = useState<number>(0)
+    const [number, setNumber] = useState<string>('')
 
     const handleGenerate = () => {
-        const item = randomNumbers.find(item => item.value === count)
-        setNumber(getRandomInt(item?.min || 10000, item?.max || 1000000))
+        setNumber(generateRandomNumbers(parseInt(count)).join(''))
     }
 
     return (
