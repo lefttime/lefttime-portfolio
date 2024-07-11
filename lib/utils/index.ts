@@ -10,11 +10,11 @@ export function getRandomInt(min: number, max: number): number {
 }
 
 export const generateRandomNumbers = (n: number): number[] => {
-  const numbers: number[] = Array.from({ length: n }, (_, i) => (i < 10 ? i : getRandomInt(1234, 987654321)) % 10)
+  const numbers: number[] = Array.from({ length: Math.max(n, 10) }, (_, i) => (i < 10 ? i : getRandomInt(1234, 987654321)) % 10)
 
   shuffle(numbers)
 
-  return numbers
+  return numbers.slice(0, n)
 }
 
 const shuffle = <T>(array: T[]): T[] => {
